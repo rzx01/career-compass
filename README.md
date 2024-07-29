@@ -10,13 +10,13 @@ CareerCompass guides you towards the professions that best match your unique ski
 
 ### Process to Install :
 
-git clone https://github.com/rzx01/career-compass.git
-cd career-compass
-cd ../frontend
-npm i 
-cd ../backend
-npm i
-cd ../
-npm i 
-npm start
+1) git clone https://github.com/rzx01/career-compass.git
+2) cd career-compass
+3) cd ../frontend
+4) npm i 
+5) cd ../backend
+6) npm i
+7) cd ../
+8) npm i 
+9) npm start
 
