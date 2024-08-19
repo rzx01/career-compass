@@ -1,9 +1,10 @@
 import './App.css';
+import CareerExplore from './pages/careerExplore';
 
 function App() {
   return (
     <div>
-      <h1 className='bg-blue-300'> Hello </h1>
+      <CareerExplore/> 
     </div>
   );
 }
