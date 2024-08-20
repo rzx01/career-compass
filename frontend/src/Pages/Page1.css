@@ -1,0 +1,11 @@
+/* Page1.css */
+.container.light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  .container.dark {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
