@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Card from "../Components/Mainpage/Card";
-import Compass from "../Components/Mainpage/Compass";
-import Navbar from "../Components/Navbar/Navbar";
+import Card from "../components/Mainpage/Card";
+// import Compass from "../Components/Mainpage/Compass";
+import Navbar from "../components/Navbar/Navbar";
+import {Link} from "react-router-dom";
+
 const CARD_POSITIONS = {
   "Personality Test": 0,
   "Aptitude Test": 90,
   "Job Explore": 180,
   "Career Roadmap": 270,
 };
+
 function Page1() {
   const current_theme = localStorage.getItem("current_theme");
   const [theme, setTheme] = useState(current_theme ? current_theme : "light");
@@ -54,13 +57,14 @@ function Page1() {
             />
           </div>
           <div className="w-full md:w-1/2 h-1/2 p-4">
-            {" "}
-            <Card
-              title="Career Roadmap"
-              borderColor="border-[#145ABC]"
-              hoverColor="#145ABC"
-              onHover={handleHover}
-            />
+            <Link to="/explore">
+              <Card
+                title="Career Roadmap"
+                borderColor="border-[#145ABC]"
+                hoverColor="#145ABC"
+                onHover={handleHover}
+              />
+            </Link>{" "}
           </div>
         </div>
       </div>
