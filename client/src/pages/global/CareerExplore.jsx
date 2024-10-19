@@ -9,7 +9,8 @@ const CareerExplore = () => {
   const [careerData, setCareerData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [filter, setFilter] = useState({ work_type: '' });
+  const [filter, setFilter] = useState({ work_type: '', job_title_regex: '' });
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const recordsPerPage = 10;
   const workTypeOptions = ['Intern', 'Part-Time', 'Full-Time', 'Contract', 'Temporary'];
 
@@ -23,20 +24,27 @@ const CareerExplore = () => {
     console.log('Current Filter:', filter); 
     try {
         const response = await fetch(
-            `http://localhost:5000/getCareerCard?page=${currentPage}&limit=${recordsPerPage}&work_type=${filter.work_type}&experience=${filter.experience}&salary_range=${filter.salary_range}&job_title_regex=${filter.job_title_regex || ''}`
+            `http://localhost:5000/getCareerCard?page=${currentPage}&limit=${recordsPerPage}&work_type=${filter.work_type}&experience=${filter.experience}&salary_range=${filter.salary_range}&job_title_regex=${searchQuery}`
         );
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
         const data = await response.json();
-        setCareerData(data.careers);
-        setTotalPages(data.totalPages);
+
+        // Ensure careerData is an array before setting
+        setCareerData(data.careers || []);
+        setTotalPages(data.totalPages || 0);
     } catch (error) {
         console.error('Error fetching career data:', error);
+        setCareerData([]); // Set to an empty array on error
     }
 };
 
-  
   useEffect(() => {
     fetchCareerData();
-}, [currentPage, filter]);
+}, [currentPage, filter, searchQuery]); // Add searchQuery to dependencies
 
   // updating filter
   const handleFilterChange = (newFilter) => {
@@ -51,6 +59,11 @@ const CareerExplore = () => {
     }
     setCurrentPage(1); 
 };
+
+  const handleSearchChange = (query) => {
+    setSearchQuery(query); // Update search query state
+    setCurrentPage(1); // Reset to the first page
+  };
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -90,7 +103,7 @@ const CareerExplore = () => {
         >
           Clear Filter
         </button>
-        <SearchBar />
+        <SearchBar onChange={handleSearchChange} /> {/* Pass search change handler */}
       </div>
     </div>
 
@@ -101,10 +114,10 @@ const CareerExplore = () => {
         <p className="text-2xl mb-2 max-sm:text-sm">General</p>
         <p
           className="text-lg mb-2 text-gray-500 max-sm:text-sm hover:text-black hover:cursor-pointer dark:text-gray-400 dark:hover:text-white"
-          onClick={() => handleFilterChange({ job_title: 'managerial' })} // Call the filter change
-      >
+          onClick={() => handleFilterChange({ job_title: 'managerial' })}
+        >
           Managerial Jobs
-      </p>
+        </p>
         <p
           className="text-lg mb-2 text-gray-500 max-sm:text-sm hover:text-black hover:cursor-pointer dark:text-gray-400 dark:hover:text-white"
           onClick={() => handleFilterChange({ work_type: 'Intern' })}

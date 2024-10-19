@@ -42,9 +42,11 @@ app.get("/getCareerCard", async (req, res) => {
       if (experience) { 
           filter.experience = { $regex: /^0/ }; 
       }
+      
       if (job_title_regex) {
           filter.job_title = { $regex: new RegExp(job_title_regex + '$', 'i') }; 
       }
+
       const careerData = await JobData.find(filter)
           .skip(parseInt(skip))
           .limit(parseInt(limit));
