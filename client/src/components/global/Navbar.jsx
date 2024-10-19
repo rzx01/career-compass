@@ -1,6 +1,8 @@
 import React from 'react';
 import Profile from './Profile';
 import DarkModeToggle from './DarkModeToggle';
+// import logo_light from "./images/careercompass.jpg";
+// import logo_dark from "./images/careercompass_inverted_colors.jpg";
 
 const Navbar = () => {
   return (
@@ -9,6 +11,7 @@ const Navbar = () => {
       <div className="flex items-center gap-4">
         <Profile />
         <DarkModeToggle />
+
       </div>
     </div>
   );
