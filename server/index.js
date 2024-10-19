@@ -42,13 +42,9 @@ app.get("/getCareerCard", async (req, res) => {
       if (experience) { 
           filter.experience = { $regex: /^0/ }; 
       }
-      if (salary_range === 'high') {
-          filter['salary_range.min'] = { $gte: 80000 }; 
-      }
       if (job_title_regex) {
           filter.job_title = { $regex: new RegExp(job_title_regex + '$', 'i') }; 
       }
-
       const careerData = await JobData.find(filter)
           .skip(parseInt(skip))
           .limit(parseInt(limit));
