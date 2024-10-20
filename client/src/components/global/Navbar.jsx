@@ -2,6 +2,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom'; 
 import Profile from './Profile';
 import DarkModeToggle from './DarkModeToggle';
+// import logo_light from "./images/careercompass.jpg";
+// import logo_dark from "./images/careercompass_inverted_colors.jpg";
 
 const Navbar = () => {
   const location = useLocation(); // get the current url
@@ -16,6 +18,7 @@ const Navbar = () => {
         {/* conditionally render the Profile component only if not on the UserProfile page */}
         {!isUserProfilePage && <Profile />}
         <DarkModeToggle />
+
       </div>
     </div>
   );
