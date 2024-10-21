@@ -31,37 +31,44 @@ app.use('/api/questions', questionsRoutes);
 app.use(errorHandler);
 
 app.get("/getCareerCard", async (req, res) => {
-  try {
-      const { page = 1, limit = 10, work_type, experience, salary_range, job_title_regex } = req.query;
-      const skip = (page - 1) * limit;
-
-      let filter = {};
-      if (work_type) {
-          filter.work_type = work_type;
-      }
-      if (experience) { 
-          filter.experience = { $regex: /^0/ }; 
-      }
-      
-      if (job_title_regex) {
-          filter.job_title = { $regex: new RegExp(job_title_regex + '$', 'i') }; 
-      }
-
-      const careerData = await JobData.find(filter)
-          .skip(parseInt(skip))
-          .limit(parseInt(limit));
-
-      const totalRecords = await JobData.countDocuments(filter);
-
-      res.json({
-          careers: careerData,
-          totalPages: Math.ceil(totalRecords / limit),
-      });
-  } catch (error) {
-      console.error("Error fetching career data:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+    try {
+        const { page = 1, limit = 10, work_type, experience, salary_range, experience_sort, searchQuery } = req.query;
+        const skip = (page - 1) * limit;
+  
+        let filter = {};
+        if (work_type) {
+            filter.work_type = work_type;
+        }
+        if (experience) {
+            filter.experience = { $regex: /^0/ };
+        }
+        if (searchQuery) {
+            filter.job_title = { $regex: searchQuery, $options: 'i' }; // Case-insensitive search
+        }
+  
+        let sortCriteria = {};
+        if (experience_sort === 'asc') {
+            sortCriteria['experience'] = 1;
+        } else if (experience_sort === 'desc') {
+            sortCriteria['experience'] = -1;
+        }
+  
+        const careerData = await JobData.find(filter)
+            .sort(sortCriteria)
+            .skip(parseInt(skip))
+            .limit(parseInt(limit));
+  
+        const totalRecords = await JobData.countDocuments(filter);
+  
+        res.json({
+            careers: careerData,
+            totalPages: Math.ceil(totalRecords / limit),
+        });
+    } catch (error) {
+        console.error("Error fetching career data:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});  
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

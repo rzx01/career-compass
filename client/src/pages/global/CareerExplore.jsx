@@ -9,10 +9,11 @@ const CareerExplore = () => {
   const [careerData, setCareerData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [filter, setFilter] = useState({ work_type: '', job_title_regex: '' });
+  const [filter, setFilter] = useState({ work_type: '' });
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const recordsPerPage = 10;
   const workTypeOptions = ['Intern', 'Part-Time', 'Full-Time', 'Contract', 'Temporary'];
+  const experienceSortOptions = ['Lowest to Highest', 'Highest to Lowest'];
 
   const toggleSort = () => {
     setIsActive(!isActive);
@@ -21,10 +22,10 @@ const CareerExplore = () => {
   };
 
   const fetchCareerData = async () => {
-    console.log('Current Filter:', filter); 
+    console.log('Current Filter:', filter);
     try {
         const response = await fetch(
-            `http://localhost:5000/getCareerCard?page=${currentPage}&limit=${recordsPerPage}&work_type=${filter.work_type}&experience=${filter.experience}&salary_range=${filter.salary_range}&job_title_regex=${searchQuery}`
+            `http://localhost:5000/getCareerCard?page=${currentPage}&limit=${recordsPerPage}&work_type=${filter.work_type}&experience=${filter.experience}&salary_range=${filter.salary_range}&experience_sort=${filter.experience_sort}&searchQuery=${searchQuery}`
         );
 
         if (!response.ok) {
@@ -32,19 +33,17 @@ const CareerExplore = () => {
         }
 
         const data = await response.json();
-
-        // Ensure careerData is an array before setting
         setCareerData(data.careers || []);
         setTotalPages(data.totalPages || 0);
     } catch (error) {
         console.error('Error fetching career data:', error);
-        setCareerData([]); // Set to an empty array on error
+        setCareerData([]);
     }
 };
-
-  useEffect(() => {
-    fetchCareerData();
-}, [currentPage, filter, searchQuery]); // Add searchQuery to dependencies
+  
+    useEffect(() => {
+      fetchCareerData();
+    }, [currentPage, filter, searchQuery]);
 
   // updating filter
   const handleFilterChange = (newFilter) => {
@@ -52,17 +51,15 @@ const CareerExplore = () => {
         setFilter({ work_type: '', experience: '0' });
     } else if (newFilter.salary_range === 'high') {
         setFilter({ salary_range: 'high' });
-    } else if (newFilter.job_title === 'managerial') {
-        setFilter((prev) => ({ ...prev, job_title_regex: 'manager' }));
     } else {
         setFilter((prev) => ({ ...prev, ...newFilter }));
     }
-    setCurrentPage(1); 
-};
-
+    setCurrentPage(1);
+  };
+  
   const handleSearchChange = (query) => {
-    setSearchQuery(query); // Update search query state
-    setCurrentPage(1); // Reset to the first page
+    setSearchQuery(query); 
+    setCurrentPage(1); 
   };
 
   const paginate = (pageNumber) => {
@@ -87,13 +84,22 @@ const CareerExplore = () => {
       </div>
         <div className="w-full flex flex-col md:flex-row items-center justify-between p-5">  
         <div className="flex space-x-2 mb-2 md:mb-0">
-        <button className="border border-moss bg-moss text-white rounded-md px-4 py-2 transition-transform duration-300 ease-in-out transform hover:-translate-y-1 hover:border-moss hover:shadow-md hover:shadow-black/10">
-          Experience
-        </button>
-        <DropDown 
-        options={workTypeOptions} 
-        onSelect={(option) => handleFilterChange({ work_type: option })} 
-    />
+        <div className="flex space-x-2 mb-2 md:mb-0">
+        
+          <DropDown 
+              label="Experience" 
+              buttonClass="border-moss bg-moss text-white rounded-md px-4 py-2 transition-transform duration-300 ease-in-out transform hover:-translate-y-1 hover:border-moss hover:shadow-md hover:shadow-black/10" 
+              options={experienceSortOptions} 
+              onSelect={(option) => handleFilterChange({ experience_sort: option === 'Lowest to Highest' ? 'asc' : 'desc' })}
+          />
+          <DropDown 
+              label="Work Type" 
+              buttonClass="border-rust bg-rust text-white rounded-md px-4 py-2 transition-transform duration-300 ease-in-out transform hover:-translate-y-1 hover:border-rust hover:shadow-md hover:shadow-black/10" 
+              options={workTypeOptions} 
+              onSelect={(option) => handleFilterChange({ work_type: option })}
+          />
+      </div>
+
       </div>
 
       <div className="flex space-x-2 items-center max-lg:visible">
@@ -103,7 +109,7 @@ const CareerExplore = () => {
         >
           Clear Filter
         </button>
-        <SearchBar onChange={handleSearchChange} /> {/* Pass search change handler */}
+        <SearchBar onChange={(event) => handleSearchChange(event.target.value)} />
       </div>
     </div>
 
@@ -112,12 +118,6 @@ const CareerExplore = () => {
     <div className="mt-2 flex flex-col md:flex-row">
       <div className="flex flex-col items-start pr-4 max-sm:hidden">
         <p className="text-2xl mb-2 max-sm:text-sm">General</p>
-        <p
-          className="text-lg mb-2 text-gray-500 max-sm:text-sm hover:text-black hover:cursor-pointer dark:text-gray-400 dark:hover:text-white"
-          onClick={() => handleFilterChange({ job_title: 'managerial' })}
-        >
-          Managerial Jobs
-        </p>
         <p
           className="text-lg mb-2 text-gray-500 max-sm:text-sm hover:text-black hover:cursor-pointer dark:text-gray-400 dark:hover:text-white"
           onClick={() => handleFilterChange({ work_type: 'Intern' })}
