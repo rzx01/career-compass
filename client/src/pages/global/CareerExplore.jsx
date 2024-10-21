@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import career_banner from '../../assets/images/career_banner.jpg'; 
 import SearchBar from '../../components/SearchBar';
 import CareerCard from '../../components/CareerCard';
-import DropDown from '../../components/DropDown';
+import DropDown from "../../components/DropDown";
 
 const CareerExplore = () => {
   const [isActive, setIsActive] = useState(false);
