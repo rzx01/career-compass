@@ -5,8 +5,11 @@ import Dashboard from "./pages/global/Dashboard.jsx";
 
 import CareerExplore from "./pages/global/CareerExplore.jsx";
 import OceanTest from "./pages/global/OceanTest.jsx";
+import AptitudeTest from "./pages/global/AptitudeTest.jsx";
 import JobPage from "./pages/global/JobPage.jsx";
 import UserProfile from "./pages/global/UserProfile.jsx";
+import Authenticate from "./pages/global/Authenticate.jsx";
+import Results from "./pages/global/Results.jsx";
 
 function App() {
   return (
@@ -17,10 +20,13 @@ function App() {
           <div className="pt-20 grow px-4 sm:px-16">
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/careerexplore" element={<CareerExplore />} />
-              <Route path="/OceanTest" element={<OceanTest />} />
+              <Route path="/career" element={<CareerExplore />} />
+              <Route path="/personality" element={<OceanTest />} />
+              <Route path="/aptitude" element={<AptitudeTest />} />
               <Route path="/jobs/:job_id" element={<JobPage />} />
-              <Route path="/profile/:user_id" element={<UserProfile />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/authenticate" element={<Authenticate />} />
+              <Route path="/results" element={<Results />} />
             </Routes>
           </div>
         </div>

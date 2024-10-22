@@ -7,7 +7,7 @@ const Dashboard = () => {
     { title: 'Aptitude Assessment', description: 'Track your Reasoning Abilities', border_color: 'blue-400', link: '/aptitude' },
     { title: 'Personality Assessment', description: 'Get insights into yourself.', border_color: 'green-400', link: '/personality' },
     { title: 'Job Opportunities', description: 'Explore various job options.', border_color: 'red-400', link: '/jobs' },
-    { title: 'Career Paths', description: 'Find curated learning paths.', border_color: 'purple-400', link: '/career-paths' }
+    { title: 'Career Paths', description: 'Find curated learning paths.', border_color: 'purple-400', link: '/career' }
   ];
 
   return (

@@ -1,17 +1,9 @@
 import express from 'express';
-import { Question, Choice } from '../models/Question.js';
+import {getOceanQuestions, getAptitudeQuestions} from "../controllers/questionController.js";
 
-const router = express.Router();
+const questionRoutes = express.Router();
 
-router.get('/', async (req, res) => {
-  try {
-    const questions = await Question.find({});
-    const choices = await Choice.find({});
-    res.json({ questions, choices });
-  } catch (error) {
-    console.error("Error fetching questions and choices:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+questionRoutes.get('/ocean', getOceanQuestions);
+questionRoutes.get('/aptitude', getAptitudeQuestions);
 
-export default router;
+export default questionRoutes;
