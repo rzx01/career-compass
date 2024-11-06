@@ -14,6 +14,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  contact_number: {
+    type: String,
+    required: true,
+  },
+  education: {
+    type: String,
+    required: true,
+    default: "N/A",  
+  },
+  job: {
+    type: String,
+    required: true,
+    default: "N/A",  
+  },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

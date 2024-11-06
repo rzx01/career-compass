@@ -7,7 +7,7 @@ const SearchBar = ({ onChange }) => {
       <input
         type="text"
         placeholder="Search by Job"
-        className="w-full p-2 pl-10 border border-gray-400 rounded-lg shadow-sm hover:border-moss focus:outline-none focus:ring-2 focus:ring-moss dark:text-gray-700"
+        className="w-full p-2 pl-10 border border-royalblue rounded-lg shadow-sm hover:border-royalblue focus:outline-none focus:ring-2 focus:ring-royalblue dark:text-gray-700"
         onChange={onChange} 
       />
       <IoIosSearch

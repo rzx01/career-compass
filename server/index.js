@@ -3,13 +3,15 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan'; 
 
-import JobData from "./models/Job.js";
-import { Choice, Question } from './models/Question.js';
-import questionsRoutes from './routes/questionsRoutes.js';
-
 import connectDB from './config/db.js';
+
+import questionRoutes from './routes/questionsRoutes.js';
+import careerRoutes from "./routes/careerRoutes.js";
 import userRoutes from './routes/userRoutes.js';
+import jobRoutes from "./routes/jobRoutes.js";
+import resultRoutes from "./routes/resultRoutes.js"
 import { errorHandler } from './utils/errorHandler.js';
+import careerMapRoutes from './routes/careerMapRoutes.js';
 
 dotenv.config(); 
 
@@ -25,51 +27,19 @@ connectDB();
 
 // Routes
 app.use('/api/users', userRoutes);
-app.use('/api/questions', questionsRoutes);
+app.use('/api/questions', questionRoutes);
+app.use('/api/careers', careerRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use('/api/results',resultRoutes)
+app.use('/api/career_map', careerMapRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
 
-app.get("/getCareerCard", async (req, res) => {
-    try {
-        const { page = 1, limit = 10, work_type, experience, salary_range, experience_sort, searchQuery } = req.query;
-        const skip = (page - 1) * limit;
-  
-        let filter = {};
-        if (work_type) {
-            filter.work_type = work_type;
-        }
-        if (experience) {
-            filter.experience = { $regex: /^0/ };
-        }
-        if (searchQuery) {
-            filter.job_title = { $regex: searchQuery, $options: 'i' }; // Case-insensitive search
-        }
-  
-        let sortCriteria = {};
-        if (experience_sort === 'asc') {
-            sortCriteria['experience'] = 1;
-        } else if (experience_sort === 'desc') {
-            sortCriteria['experience'] = -1;
-        }
-  
-        const careerData = await JobData.find(filter)
-            .sort(sortCriteria)
-            .skip(parseInt(skip))
-            .limit(parseInt(limit));
-  
-        const totalRecords = await JobData.countDocuments(filter);
-  
-        res.json({
-            careers: careerData,
-            totalPages: Math.ceil(totalRecords / limit),
-        });
-    } catch (error) {
-        console.error("Error fetching career data:", error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-});  
-
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+
+

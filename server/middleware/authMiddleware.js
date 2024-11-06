@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const protect = (req, res, next) => {
+export const authMiddleware =  (req, res, next) => {
     let token;
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -13,7 +13,9 @@ export const protect = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded.userId; 
+        req.user = decoded; 
+        console.log(req.user);
+  
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Not authorized, token failed' });

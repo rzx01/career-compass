@@ -7,19 +7,18 @@ const generateToken = (userId) => {
 };
 
 export const registerUser = async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { username, email, password, contact_number, job, education } = req.body;
 
     try {
-
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            throw new Error('User already exists');
+            return res.status(400).json({ message: 'User already exists' });
         }
 
         const saltRounds = 10; 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const newUser = new User({ name, email, password: hashedPassword });
+        const newUser = new User({ name: username, email, password: hashedPassword, contact_number, job, education });
         await newUser.save();
         const token = generateToken(newUser._id);
         
@@ -35,12 +34,12 @@ export const loginUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            throw new Error('Invalid credentials');
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new Error('Invalid credentials');
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         const token = generateToken(user._id);
@@ -49,4 +48,59 @@ export const loginUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+export const getUserProfile = async (req, res) => {
+  try {
+    const { userId } = req.user; 
+
+    const user = await User.findById(userId).select('-password -createdAt -updatedAt'); 
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const { userId } = req.user; 
+    const { name, email, password, contact_number, job, education } = req.body; 
+
+    const updatedData = { name, email, contact_number, job, education }; 
+
+    if (password) {
+      const saltRounds = 10; 
+      updatedData.password = await bcrypt.hash(password, saltRounds); 
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true }).select('-password');
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.user; 
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 };

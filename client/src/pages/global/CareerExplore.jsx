@@ -3,6 +3,7 @@ import career_banner from '../../assets/images/career_banner.jpg';
 import SearchBar from '../../components/SearchBar';
 import CareerCard from '../../components/CareerCard';
 import DropDown from "../../components/DropDown";
+import {Link} from "react-router-dom";
 
 const CareerExplore = () => {
   const [isActive, setIsActive] = useState(false);
@@ -10,7 +11,7 @@ const CareerExplore = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [filter, setFilter] = useState({ work_type: '' });
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
+  const [searchQuery, setSearchQuery] = useState(''); 
   const recordsPerPage = 10;
   const workTypeOptions = ['Intern', 'Part-Time', 'Full-Time', 'Contract', 'Temporary'];
   const experienceSortOptions = ['Lowest to Highest', 'Highest to Lowest'];
@@ -25,7 +26,7 @@ const CareerExplore = () => {
     console.log('Current Filter:', filter);
     try {
         const response = await fetch(
-            `http://localhost:5000/getCareerCard?page=${currentPage}&limit=${recordsPerPage}&work_type=${filter.work_type}&experience=${filter.experience}&salary_range=${filter.salary_range}&experience_sort=${filter.experience_sort}&searchQuery=${searchQuery}`
+            `http://localhost:5000/api/careers?page=${currentPage}&limit=${recordsPerPage}&work_type=${filter.work_type}&experience=${filter.experience}&salary_range=${filter.salary_range}&experience_sort=${filter.experience_sort}&searchQuery=${searchQuery}`
         );
 
         if (!response.ok) {
@@ -45,7 +46,6 @@ const CareerExplore = () => {
       fetchCareerData();
     }, [currentPage, filter, searchQuery]);
 
-  // updating filter
   const handleFilterChange = (newFilter) => {
     if (newFilter.work_type === 'No Experience') {
         setFilter({ work_type: '', experience: '0' });
@@ -143,13 +143,14 @@ const CareerExplore = () => {
 
       <div className="flex flex-col items-start max-sm:w-full">
         {careerData.map((career, index) => (
+          <Link to={`/jobs/${career.job_id}` } className='w-full' key={index}>
           <CareerCard
-            key={index}
             job_title={career.job_title}
             salary_range={career.salary_range}
             experience={career.experience}
             work_type={career.work_type}
           />
+          </Link>
         ))}
       </div>
     </div>
