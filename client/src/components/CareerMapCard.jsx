@@ -1,3 +1,5 @@
+careerMapCard
+
 import React from 'react';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
 import { IoIosArrowForward } from "react-icons/io";
@@ -25,7 +27,7 @@ const getRandomIcon = () => {
 
 const CareerMapCard = ({ job_title }) => {
   return (
-    <div className="m-3 w-full h-16 bg-white border  border-gray-300 shadow-md rounded-lg transition-transform duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg dark:bg-transparent dark:hover:shadow-sm dark:border-gray-300 dark:hover:shadow-white text-center">
+    <div className="m-3 w-full h-16 bg-white border hover:cursor-pointer border-gray-300 shadow-md rounded-lg transition-transform duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg dark:bg-transparent dark:hover:shadow-sm dark:border-gray-300 dark:hover:shadow-white text-center">
       <div className="grid grid-cols-3 items-right p-4 dark:gray-100">
         <div className="flex justify-center">
           {getRandomIcon()}

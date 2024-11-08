@@ -7,34 +7,45 @@ import SearchBar from '../../components/SearchBar';
 const CareerMap = () => {
     const [careerData, setCareerData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const recordsPerPage = 10;
 
     const fetchCareerData = async () => {
-        try {
-            const response = await fetch(`http://localhost:5000/api/career_map/CareerMap?search=${searchQuery}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch career data');
-            }
-            const data = await response.json();
-            setCareerData(data.map(item => item.Career)); 
-        } catch (error) {
-            console.error('Error fetching career data:', error);
-        }
-    };
+      try {
+          const response = await fetch(`http://localhost:5000/api/career_map/CareerMap?search=${searchQuery}&page=${currentPage}&limit=${recordsPerPage}`);
+          if (!response.ok) {
+              throw new Error('Failed to fetch career data');
+          }
+          const data = await response.json();
+          setCareerData(data.careers.map(item => item.Career)); 
+          setTotalPages(data.totalPages);
+      } catch (error) {
+          console.error('Error fetching career data:', error);
+      }
+  };
 
-    useEffect(() => {
-        fetchCareerData();
-    }, [searchQuery]);
+  useEffect(() => {
+      fetchCareerData();
+  }, [searchQuery, currentPage]);
 
     const handleSearchChange = (query) => {
-        setSearchQuery(query); 
+        setSearchQuery(query);
+        setCurrentPage(1);
     };
 
     const handlePredefinedSearch = (type) => {
-        setSearchQuery(type); 
+        setSearchQuery(type);
+        setCurrentPage(1);
     };
 
     const handleClearFilter = () => {
-        setSearchQuery(''); 
+        setSearchQuery('');
+        setCurrentPage(1);
+    };
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
   return (
@@ -90,14 +101,47 @@ const CareerMap = () => {
 
       <div className="border-l border-gray-300 h-auto max-sm:mx-1 mr-2" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+      {/* Cards and Pagination Wrapper */}
+      <div className="flex flex-col w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {careerData.map((career, index) => (
-            <CareerMapCard key={index} job_title={career} />
+              <CareerMapCard key={index} job_title={career} />
           ))}
         </div>
+
+        {/* Pagination */}
+        <div className="flex justify-center mt-4 p-4">
+            <button 
+                onClick={() => paginate(currentPage - 1)} 
+                disabled={currentPage === 1} 
+                className="mx-1 px-3 py-1 border rounded-md hover:bg-gray-200"
+            >
+                Previous
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+                <button
+                    key={i}
+                    onClick={() => paginate(i + 1)}
+                    className={`mx-1 px-3 py-1 border rounded-md ${currentPage === i + 1 ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`}
+                >
+                    {i + 1}
+                </button>
+            ))}
+
+            <button 
+                onClick={() => paginate(currentPage + 1)} 
+                disabled={currentPage === totalPages} 
+                className="mx-1 px-3 py-1 border rounded-md hover:bg-gray-200"
+            >
+                Next
+            </button>
+        </div>
       </div>
+    </div>
     </div>
   );
 };
 
 export default CareerMap;
+
