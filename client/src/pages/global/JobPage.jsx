@@ -11,7 +11,7 @@ const JobPage = ({ match }) => {
       try {
         const response = await fetch(
           `http://localhost:5000/api/jobs/${job_id}`
-        );
+        );  //job_id passed as a parameter to job page
         if (!response.ok) {
           throw new Error("Failed to fetch job details");
         }
@@ -31,13 +31,13 @@ const JobPage = ({ match }) => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="job-page-container  p-6 flex flex-col items-center dark:bg-gray-900 dark:text-gray-300">
+    <div className="p-6 flex flex-col items-center dark:bg-gray-900 dark:text-gray-300">
       <div className="w-full mb-6 text-center">
         <h1 className="text-3xl font-bold dark:text-white">{job.job_title}</h1>
       </div>
 
       {/* Job Role */}
-      <div className="w-full lg:w-3/4 bg-[#D1C5C6] dark:bg-[rgb(95,86,87)]-250 p-6 shadow-lg rounded-md dark:text-gray-300 mb-6">
+      <div className="w-full lg:w-3/4 bg-[#D1C5C6]  p-6 shadow-lg rounded-md  dark:bg-purple-500 mb-6">
         <h2 className="text-2xl font-semibold mb-4">Job Role</h2>
         <p>{job.role}</p>
       </div>
@@ -50,10 +50,10 @@ const JobPage = ({ match }) => {
         </div>
 
         {/* Qualifications */}
-        {/* <div className="bg-[#C27D6C] dark:bg-[#6c5147]-300 p-4 shadow-lg rounded-md dark:text-gray-300">
+        <div className="bg-[#C27D6C] dark:bg-[#6c5147]-300 p-4 shadow-lg rounded-md dark:text-gray-300">
           <h2 className="text-xl font-semibold mb-2">Qualifications</h2>
           <p>{job.qualifications}</p>
-        </div> */}
+        </div>
 
         {/* Salary */}
         <div className="bg-[#145ABC] dark:bg-[#0e3f87]-300 p-2 shadow-lg rounded-md dark:text-gray-300">
@@ -63,7 +63,7 @@ const JobPage = ({ match }) => {
       </div>
 
       {/* Job Description */}
-      <div className="w-full lg:w-3/4 bg-[#D1C5C6] dark:bg-[#5f5657] p-6 shadow-lg rounded-md dark:text-gray-300 mb-6">
+      <div className="w-full lg:w-3/4 bg-[#D1C5C6] dark:bg-purple-500 p-6 shadow-lg rounded-md dark:text-gray-300 mb-6">
         <h2 className="text-2xl font-semibold mb-4">Job Description</h2>
         <p>{job.job_description}</p>
       </div>

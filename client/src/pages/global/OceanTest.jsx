@@ -162,7 +162,7 @@ const OceanTest = () => {
           <button 
             onClick={handleNext} 
             className="flex mt-20 text-lg items-center border border-rust bg-rust text-white rounded-md px-4 py-2 transition-transform duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-md hover:shadow-black/10 dark:border-red-600 dark:bg-red-600 dark:hover:bg-red-700"
-            disabled={currentIndex >= questions.length - 1 || !selections[currentIndex]} // Disable if no selection
+            disabled={currentIndex >= questions.length - 1 || !selections[currentIndex]}
           >
             Next
             <IoMdArrowRoundForward className="ml-2" />

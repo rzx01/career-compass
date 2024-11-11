@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FaUserCircle, FaEdit, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUserCircle, FaEdit } from 'react-icons/fa';
 
 const UserProfile = () => {
   const [userDetails, setUserDetails] = useState(null); 
   const [isEditing, setIsEditing] = useState(false);
   const [editedDetails, setEditedDetails] = useState({});
   const token = localStorage.getItem('token'); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -18,7 +19,11 @@ const UserProfile = () => {
             'Content-Type': 'application/json',
           },
         });
-        
+
+        if(response.status === 401){
+          navigate('/authenticate')
+        }
+
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -60,7 +65,7 @@ const UserProfile = () => {
       }
 
       const updatedUser = await response.json();
-      setUserDetails(updatedUser.user); // Update the user details with the response
+      setUserDetails(updatedUser.user); 
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving user data:', error);
@@ -97,22 +102,7 @@ const UserProfile = () => {
             </div>
           </div>
 
-          {/* Social accounts */}
-          {/* <div className="mt-4">
-            <h3 className="text-lg font-semibold">Social Accounts</h3>
-            <div className="flex gap-4 mt-2">
-              <a href={userDetails.socialAccounts.linkedin} target="_blank" rel="noopener noreferrer">
-                <FaLinkedin className="text-3xl text-blue-700 hover:text-blue-800" />
-              </a>
-              <a href={userDetails.socialAccounts.github} target="_blank" rel="noopener noreferrer">
-                <FaGithub className="text-3xl text-gray-700 hover:text-gray-800" />
-              </a>
-              <a href={userDetails.socialAccounts.twitter} target="_blank" rel="noopener noreferrer">
-                <FaTwitter className="text-3xl text-blue-400 hover:text-blue-500" />
-              </a>
-            </div>
-          </div> */}
-
+       
           {/* Buttons */}
           <div className="mt-6 flex justify-between">
             <Link to ="/results">

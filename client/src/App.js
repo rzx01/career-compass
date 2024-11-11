@@ -10,6 +10,7 @@ import JobPage from "./pages/global/JobPage.jsx";
 import UserProfile from "./pages/global/UserProfile.jsx";
 import Authenticate from "./pages/global/Authenticate.jsx";
 import Results from "./pages/global/Results.jsx";
+import CareerMap from "./pages/global/CareerMap.jsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/authenticate" element={<Authenticate />} />
               <Route path="/results" element={<Results />} />
+              <Route path="/careermap" element={<CareerMap />} />
             </Routes>
           </div>
         </div>

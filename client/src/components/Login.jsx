@@ -18,7 +18,7 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password })
       });
-
+      console.log(response.status);
       if (response.status === 404) {
         setMessage('User not found.');
         return;

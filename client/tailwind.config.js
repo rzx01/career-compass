@@ -9,6 +9,7 @@ module.exports = {
         'rust': '#C27D6C', 
         'moss': '#8B9E83',  
         'royalblue': '#145ABC',  
+        'lush':'#87953A',
       },  
     }, 
   },

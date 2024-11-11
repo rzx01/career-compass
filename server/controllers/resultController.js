@@ -58,7 +58,7 @@ export const submitOceanResults = async (req, res, next) => {
         }
 
         if (topCareersSet.size < 3) {
-            for (let k = 6; k >= 5; k--) {
+            for (let k = 6; k >= 2; k--) {
                 const knn = new KNN(X, y, { k });
                 const predictions = knn.predict(scores_array);
 
@@ -91,9 +91,11 @@ export const submitOceanResults = async (req, res, next) => {
 };
 export const submitAptitudeResults = async (req, res, next) => {
     try {
-      const { aptitudeScore } = req.body;
+      const aptitudeScore  = req.body;
 
       const user = await User.findById(req.user.userId);
+      console.log(user);
+      console.log(aptitudeScore);
       if (!user.email || !aptitudeScore) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
@@ -104,13 +106,14 @@ export const submitAptitudeResults = async (req, res, next) => {
         aptitudeScore,
         career_names: [], 
       });
+
       await result.save();
   
       const aptitudeData = await mongoose.connection.db.collection('aptitude').find({}).toArray();
   
       const X = aptitudeData.map(item => [
         item.Numerical_Aptitude,
-        item.Spacial_Aptitude,
+        item.Spatial_Aptitude,
         item.Abstract_Reasoning,
         item.Perceptual_Aptitude
       ]);
@@ -118,7 +121,7 @@ export const submitAptitudeResults = async (req, res, next) => {
   
       const scores_array = [[
         aptitudeScore['Numerical Aptitude'],
-        aptitudeScore['Spacial Aptitude'],
+        aptitudeScore['Spatial Aptitude'],
         aptitudeScore['Abstract Reasoning'],
         aptitudeScore['Perceptual Aptitude']
       ]];
@@ -143,7 +146,7 @@ export const submitAptitudeResults = async (req, res, next) => {
       }
   
       if (topCareersSet.size < 3) {
-        for (let k = 6; k >= 5; k--) {
+        for (let k = 6; k >= 2; k--) {
           const knn = new KNN(X, y, { k });
           const predictions = knn.predict(scores_array);
   
@@ -171,8 +174,7 @@ export const submitAptitudeResults = async (req, res, next) => {
       res.json({ predictions: topCareers });
   
     } catch (error) {
-      console.error('Error submitting aptitude results:', error);
-      return res.status(500).json({ message: 'Server error' });
+      next(error);
     }
   };
 

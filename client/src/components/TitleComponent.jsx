@@ -3,23 +3,23 @@ import React from 'react';
 const TitleComponent = ({ title, description, border_color }) => {
 
   const hoverBgColor = {
-    'blue-400': 'hover:bg-blue-400',
-    'green-400': 'hover:bg-green-400',
-    'red-400': 'hover:bg-red-400',
+    'blue-400': 'hover:bg-royalblue',
+    'green-400': 'hover:bg-moss',
+    'red-400': 'hover:bg-rust',
     'purple-400': 'hover:bg-purple-400'
   }[border_color] || '';
 
   const borderColorClass = {
-    'blue-400': 'border-blue-400',
-    'green-400': 'border-green-400',
-    'red-400': 'border-red-400',
+    'blue-400': 'border-royalblue',
+    'green-400': 'border-moss',
+    'red-400': 'border-rust',
     'purple-400': 'border-purple-400'
   }[border_color] || '';
 
   const darkModeHoverBgColor = {
-    'blue-400': 'dark:hover:bg-blue-500',
-    'green-400': 'dark:hover:bg-green-500',
-    'red-400': 'dark:hover:bg-red-500',
+    'blue-400': 'dark:hover:bg-royalblue',
+    'green-400': 'dark:hover:bg-moss',
+    'red-400': 'dark:hover:bg-rust',
     'purple-400': 'dark:hover:bg-purple-500'
   }[border_color] || '';
 

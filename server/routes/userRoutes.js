@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, updateUser, deleteUser , getUserProfile} from '../controllers/userController.js';
+import { registerUser, loginUser, updateUser, deleteUser , getUserProfile, verifyOtp} from '../controllers/userController.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 
 const userRoutes = express.Router();
@@ -9,4 +9,6 @@ userRoutes.post('/login', loginUser);
 userRoutes.put('/update', authMiddleware, updateUser);
 userRoutes.delete('/delete', authMiddleware, deleteUser);
 userRoutes.get('/getProfile', authMiddleware, getUserProfile);
+userRoutes.post('/verify-otp', verifyOtp);
+verifyOtp
 export default userRoutes;

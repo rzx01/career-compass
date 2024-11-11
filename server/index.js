@@ -9,7 +9,8 @@ import questionRoutes from './routes/questionsRoutes.js';
 import careerRoutes from "./routes/careerRoutes.js";
 import userRoutes from './routes/userRoutes.js';
 import jobRoutes from "./routes/jobRoutes.js";
-import resultRoutes from "./routes/resultRoutes.js"
+import resultRoutes from "./routes/resultRoutes.js";
+import careerMapRoutes from './routes/careerMapRoutes.js';
 import { errorHandler } from './utils/errorHandler.js';
 
 dotenv.config(); 
@@ -29,7 +30,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', jobRoutes);
-app.use('/api/results',resultRoutes)
+app.use('/api/results',resultRoutes);
+app.use('/api/career_map', careerMapRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

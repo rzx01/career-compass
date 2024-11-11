@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import CareerCard from "./CareerCard"; // Adjust the import path as necessary
+import CareerCard from "./CareerCard"; 
+import { Link } from "react-router-dom";
 
 const DisplayResults = ({ option }) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [visibleCareer, setVisibleCareer] = useState(null); // State to control which career is visible
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -49,70 +51,89 @@ const DisplayResults = ({ option }) => {
   const [recommendedCareers, jobsForCareer1, jobsForCareer2, jobsForCareer3] =
     results;
 
+  const handleCareerToggle = (careerIndex) => {
+    setVisibleCareer(visibleCareer === careerIndex ? null : careerIndex);
+  };
+
   return (
-    <div className="results-display w-fit">
-      <h2 className="text-2xl font-bold mb-6">Recommended Careers</h2>
+    <div className="results-display w-full p-4">
       <div className="">
-        <ul className="flex justify-around">
+        <ul className="flex flex-wrap justify-center gap-6 mb-6">
           {recommendedCareers.map((career, index) => (
-            <li key={index} className="font-semibold mb-6 lg:text-3xl">
-              {career}
-            </li>
+            <button
+              key={index}
+              onClick={() => handleCareerToggle(index + 1)} // Pass the career index (+1 for 1-based index)
+              className="bg-blue-400 text-white p-2 rounded"
+            >
+              <li className="font-semibold text-lg lg:text-3xl">{career}</li>
+            </button>
           ))}
         </ul>
       </div>
 
-      <div className="job-section flex justify-between">
-        <div className="career-jobs">
+      <div className="job-section">
+        {/* Career 1 Jobs */}
+        {visibleCareer === 1 && (
+          <div className="career-jobs">
+            {jobsForCareer1.length > 0 ? (
+              jobsForCareer1.map((job, index) => (
+                <Link to={`/jobs/${job.job_id}` } className='w-full' key={index}>
+                  <CareerCard
+                    key={index}
+                    job_title={job?.role}
+                    salary_range={job?.salary_range}
+                    experience={job?.experience}
+                    work_type={job?.work_type}
+                  />
+                </Link>
+              ))
+            ) : (
+              <div>No job data available for this career.</div>
+            )}
+          </div>
+        )}
 
-          {jobsForCareer1.length > 0 ? (
-            jobsForCareer1.map((job, index) => (
-              <CareerCard
-                key={index}
-                job_title={job?.role} // Ensure the property names match your JobData schema
-                salary_range={job?.salary_range}
-                experience={job?.experience}
-                work_type={job?.work_type}
-              />
-            ))
-          ) : (
-            <div>No job data available for this career.</div>
-          )}
-        </div>
+        {/* Career 2 Jobs */}
+        {visibleCareer === 2 && (
+          <div className="career-jobs">
+            {jobsForCareer2.length > 0 ? (
+              jobsForCareer2.map((job, index) => (
+                <Link to={`/jobs/${job.job_id}` } className='w-full' key={index}>
+                <CareerCard
+                  key={index}
+                  job_title={job?.role}
+                  salary_range={job?.salary_range}
+                  experience={job?.experience}
+                  work_type={job?.work_type}
+                />
+                </Link>
+              ))
+            ) : (
+              <div>No job data available for this career.</div>
+            )}
+          </div>
+        )}
 
-        <div className="career-jobs ">
-
-          {jobsForCareer2.length > 0 ? (
-            jobsForCareer2.map((job, index) => (
-              <CareerCard
-                key={index}
-                job_title={job?.role}
-                salary_range={job?.salary_range}
-                experience={job?.experience}
-                work_type={job?.work_type}
-              />
-            ))
-          ) : (
-            <div>No job data available for this career.</div>
-          )}
-        </div>
-
-        <div className="career-jobs">
-
-          {jobsForCareer3.length > 0 ? (
-            jobsForCareer3.map((job, index) => (
-              <CareerCard
-                key={index}
-                job_title={job?.role}
-                salary_range={job?.salary_range}
-                experience={job?.experience}
-                work_type={job?.work_type}
-              />
-            ))
-          ) : (
-            <div>No job data available for this career.</div>
-          )}
-        </div>
+        {/* Career 3 Jobs */}
+        {visibleCareer === 3 && (
+          <div className="career-jobs">
+            {jobsForCareer3.length > 0 ? (
+              jobsForCareer3.map((job, index) => (
+                <Link to={`/jobs/${job.job_id}` } className='w-full' key={index}>
+                <CareerCard
+                  key={index}
+                  job_title={job?.role}
+                  salary_range={job?.salary_range}
+                  experience={job?.experience}
+                  work_type={job?.work_type}
+                />
+                </Link>
+              ))
+            ) : (
+              <div>No job data available for this career.</div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

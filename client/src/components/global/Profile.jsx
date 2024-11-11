@@ -4,11 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const navigate = useNavigate(); 
-
-  const userId = '12345';  // replace this with dynamic user id 
-
   const handleProfileClick = () => {
-    navigate(`/profile/${userId}`);
+    navigate(`/profile/`);
   };
 
   return (
