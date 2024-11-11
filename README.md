@@ -6,6 +6,7 @@ CareerCompass guides you towards the professions that best match your unique ski
 
 ### Pre-requisites:
 1) Nodejs, (npm):
+2) .env file shared privately containing Mongo atlas URI and JWT secret token
 
 
 ### Process to Install :
