@@ -6,11 +6,11 @@ const DisplayResults = ({ option }) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [visibleCareer, setVisibleCareer] = useState(null); // State to control which career is visible
+  const [visibleCareer, setVisibleCareer] = useState(null); 
 
   useEffect(() => {
     const fetchResults = async () => {
-      const token = localStorage.getItem("token"); // Assuming your token is stored in localStorage
+      const token = localStorage.getItem("token"); 
 
       try {
         const response = await fetch(
@@ -18,7 +18,7 @@ const DisplayResults = ({ option }) => {
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${token}`, // Set the Bearer token in the Authorization header
+              Authorization: `Bearer ${token}`, 
               "Content-Type": "application/json",
             },
           }
@@ -29,7 +29,7 @@ const DisplayResults = ({ option }) => {
         }
 
         const data = await response.json();
-        setResults(data); // This will contain 4 arrays as per the backend logic
+        setResults(data); 
       } catch (err) {
         setError(err);
       } finally {
@@ -62,7 +62,7 @@ const DisplayResults = ({ option }) => {
           {recommendedCareers.map((career, index) => (
             <button
               key={index}
-              onClick={() => handleCareerToggle(index + 1)} // Pass the career index (+1 for 1-based index)
+              onClick={() => handleCareerToggle(index + 1)} 
               className="bg-blue-400 text-white p-2 rounded"
             >
               <li className="font-semibold text-lg lg:text-3xl">{career}</li>

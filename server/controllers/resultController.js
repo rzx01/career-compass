@@ -4,6 +4,7 @@ import KNN from 'ml-knn';
 import mongoose from 'mongoose';
 import JobData from "../models/Job.js";
 import CareerMap from "../models/CareerMap.js";
+import { timestamp } from 'rxjs';
 
 export const submitOceanResults = async (req, res, next) => {
     try {
@@ -187,7 +188,6 @@ export const displayResults = async (req, res, next) => {
         const recommendedCareers = result.career_names; 
 
         const jobDataResults = [];
-
         for (const career of recommendedCareers) {
             const lowercaseCareer = career.toLowerCase();
             const careerMapEntry = await CareerMap.findOne({ Career: lowercaseCareer });
@@ -196,10 +196,14 @@ export const displayResults = async (req, res, next) => {
                 const similarJobs = careerMapEntry.Similar_Jobs;
 
                 const jobsForCareer = await Promise.all(similarJobs.map(async (job) => {
-                    const jobId = job[0]; 
-                    const jobData = await JobData.findOne({ job_id: jobId });
-                    return jobData; 
-                }));
+                  const [jobId, jobTitle] = job; 
+                  const jobData = await JobData.findOne({  job_id: jobId,
+                    $or: [
+                      { job_title: { $regex: new RegExp(`^${jobTitle}$`, 'i') } },  
+                      { role: { $regex: new RegExp(`^${jobTitle}$`, 'i') } }           
+                  ] });
+                  return jobData;
+              }));
 
                 jobDataResults.push(jobsForCareer.filter(job => job !== null));
             } else {

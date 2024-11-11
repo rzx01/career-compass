@@ -125,3 +125,20 @@ export const verifyOtp = async (req, res) => {
         return res.status(400).json({ message: 'OTP verification failed or token expired' });
     }
 };
+
+
+export const verifyToken = async(req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    
+    if (!token) {
+        return res.status(401).json({ isValid: false });
+    }
+    
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        res.json({ isValid: true });
+    } catch (error) {
+        res.status(401).json({ isValid: false });
+    }
+};
+
