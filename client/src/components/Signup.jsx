@@ -149,11 +149,10 @@ const Signup = () => {
       setOtpError('Failed to verify OTP. Please try again.');
     }
   };
-  return (
-    <div className="bg-gray-800 dark:bg-gray-900 p-8 rounded-lg shadow-md max-w-md mx-auto ring-blue-500 ring-4">
-      <h2 className="text-2xl font-bold text-white mb-6">Signup</h2>
-      {!otpSent ? (
-      <form id="registrationForm" onSubmit={handleSubmit} className="space-y-4">
+  return (<div className="bg-gray-200 dark:bg-gray-800 p-8 rounded-lg shadow-md max-w-md mx-auto ring-blue-500 ring-4">
+    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Signup</h2>
+    {!otpSent ? (
+      <form id="registrationForm" onSubmit={handleSubmit} className="space-y-4  rounded-md shadow-lg">
         <input
           type="text"
           placeholder="Username"
@@ -161,10 +160,10 @@ const Signup = () => {
           value={formData.username}
           onChange={handleInputChange}
           required
-          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="text-red-400">{errors.usernameError}</span>
-
+        <span className="text-red-500 dark:text-red-400">{errors.usernameError}</span>
+  
         <input
           type="email"
           placeholder="Email"
@@ -172,10 +171,10 @@ const Signup = () => {
           value={formData.email}
           onChange={handleInputChange}
           required
-          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="text-red-400">{errors.emailError}</span>
-
+        <span className="text-red-500 dark:text-red-400">{errors.emailError}</span>
+  
         <input
           type="text"
           placeholder="Contact Number"
@@ -183,10 +182,10 @@ const Signup = () => {
           value={formData.contact_number}
           onChange={handleInputChange}
           required
-          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="text-red-400">{errors.contactNumberError}</span>
-
+        <span className="text-red-500 dark:text-red-400">{errors.contactNumberError}</span>
+  
         <input
           type="text"
           placeholder="Job Title"
@@ -194,10 +193,10 @@ const Signup = () => {
           value={formData.job}
           onChange={handleInputChange}
           required
-          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="text-red-400">{errors.jobError}</span>
-
+        <span className="text-red-500 dark:text-red-400">{errors.jobError}</span>
+  
         <input
           type="text"
           placeholder="Education"
@@ -205,10 +204,10 @@ const Signup = () => {
           value={formData.education}
           onChange={handleInputChange}
           required
-          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="text-red-400">{errors.educationError}</span>
-
+        <span className="text-red-500 dark:text-red-400">{errors.educationError}</span>
+  
         <input
           type="password"
           placeholder="Password"
@@ -216,10 +215,10 @@ const Signup = () => {
           value={formData.password}
           onChange={handleInputChange}
           required
-          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="text-red-400">{errors.passwordError}</span>
-
+        <span className="text-red-500 dark:text-red-400">{errors.passwordError}</span>
+  
         <input
           type="password"
           placeholder="Confirm Password"
@@ -227,43 +226,43 @@ const Signup = () => {
           value={formData.confirmPassword}
           onChange={handleInputChange}
           required
-          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="text-red-400">{errors.confirmPasswordError}</span>
-
+        <span className="text-red-500 dark:text-red-400">{errors.confirmPasswordError}</span>
+  
         <button 
           type="submit" 
-          className="w-full bg-blue-600 dark:bg-blue-700 text-white p-2 rounded-md hover:bg-blue-500 dark:hover:bg-blue-600 transition duration-300"
+          className="w-full bg-blue-600 dark:bg-blue-800 text-white p-2 rounded-md hover:bg-blue-500 dark:hover:bg-blue-700 transition duration-300"
         >
           Signup
         </button>
-
-        {successMessage && <p className="text-green-400 mt-4">{successMessage}</p>}
-        {serverError && <p className="text-red-400">{serverError}</p>}
+  
+        {successMessage && <p className="text-green-600 dark:text-green-400 mt-4">{successMessage}</p>}
+        {serverError && <p className="text-red-500 dark:text-red-400">{serverError}</p>}
       </form>
     ) : (
-        <form onSubmit={handleOtpVerify} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={handleOtpChange}
-            required
-            className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-900 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <span className="text-red-400">{otpError}</span>
-
-          <button 
-            type="submit" 
-            className="w-full bg-blue-600 dark:bg-blue-700 text-white p-2 rounded-md hover:bg-blue-500 dark:hover:bg-blue-600 transition duration-300"
-          >
-            Verify OTP
-          </button>
-
-          {successMessage && <p className="text-green-400 mt-4">{successMessage}</p>}
-        </form>
-      )}
-    </div>
+      <form onSubmit={handleOtpVerify} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          value={otp}
+          onChange={handleOtpChange}
+          required
+          className="w-full p-2 rounded-md border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <span className="text-red-500 dark:text-red-400">{otpError}</span>
+  
+        <button 
+          type="submit" 
+          className="w-full bg-blue-600 dark:bg-blue-800 text-white p-2 rounded-md hover:bg-blue-500 dark:hover:bg-blue-700 transition duration-300"
+        >
+          Verify OTP
+        </button>
+  
+        {successMessage && <p className="text-green-600 dark:text-green-400 mt-4">{successMessage}</p>}
+      </form>
+    )}
+  </div>
   );
 };
 

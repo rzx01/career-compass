@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUserCircle, FaEdit } from 'react-icons/fa';
+import { FaUserCircle, FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 const UserProfile = () => {
-  const [userDetails, setUserDetails] = useState(null); 
+  const [userDetails, setUserDetails] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDetails, setEditedDetails] = useState({});
-  const token = localStorage.getItem('token'); 
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,8 +20,8 @@ const UserProfile = () => {
           },
         });
 
-        if(response.status === 401){
-          navigate('/authenticate')
+        if (response.status === 401) {
+          navigate('/authenticate');
         }
 
         if (!response.ok) {
@@ -29,16 +29,38 @@ const UserProfile = () => {
         }
 
         const data = await response.json();
-        console.log(data.user);
         setUserDetails(data.user);
-        setEditedDetails(data.user); 
+        setEditedDetails(data.user);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
     fetchUserData();
-  }, [token]);
+  }, [token, navigate]);
+
+  const handleDeleteUser = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+
+      const data = await response.json();
+      alert(data.message);
+      // Redirect after successful deletion
+      navigate('/authenticate'); // Redirect to the login or another page after user is deleted
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -65,7 +87,7 @@ const UserProfile = () => {
       }
 
       const updatedUser = await response.json();
-      setUserDetails(updatedUser.user); 
+      setUserDetails(updatedUser.user);
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving user data:', error);
@@ -73,7 +95,7 @@ const UserProfile = () => {
   };
 
   if (!userDetails) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
@@ -102,17 +124,24 @@ const UserProfile = () => {
             </div>
           </div>
 
-       
           {/* Buttons */}
           <div className="mt-6 flex justify-between">
-            <Link to ="/results">
-            <button className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200 mr-2">
-              Show Results
-            </button>
+            <Link to="/results">
+              <button className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200 mr-2">
+                Show Results
+              </button>
             </Link>
             
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
+            {/* <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
               Change Password
+            </button> */}
+            
+            <button
+              className="bg-red-500 flex flex-wrap justify-center items-center text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+              onClick={handleDeleteUser}
+            >
+              <FaTrashAlt className="mr-2" />
+              Delete Account
             </button>
           </div>
         </div>

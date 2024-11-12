@@ -17,7 +17,7 @@ export const registerUser = async (req, res, next) => {
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: 'User already exists' }); //200-300 : success status ,300-400:data repeat/data already cached,400-500: client side error,500:server error
         }
 
         const saltRounds = 10;
@@ -138,7 +138,7 @@ export const verifyToken = async(req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         res.json({ isValid: true });
     } catch (error) {
-        res.status(401).json({ isValid: false });
+        res.status(401).json({ isValid: false });   //401: unauthorized
     }
 };
 

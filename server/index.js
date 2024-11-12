@@ -13,20 +13,20 @@ import resultRoutes from "./routes/resultRoutes.js";
 import careerMapRoutes from './routes/careerMapRoutes.js';
 import { errorHandler } from './utils/errorHandler.js';
 
-dotenv.config(); 
+dotenv.config();  
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
-app.use(morgan('dev')); 
-app.use(express.json()); 
+app.use(cors());                   //cross origin resourse sharing-3000 port and 5000 port to allow commn b/w them
+app.use(morgan('dev'));            // morgan-
+app.use(express.json());           //deals with json type docs-job.js
 
 connectDB(); 
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);          //routes-communication endpoints-connection b/w frontend and db
 app.use('/api/questions', questionRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', jobRoutes);
@@ -37,7 +37,7 @@ app.use('/api/career_map', careerMapRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);          //main code-for switching on server
 });
 
 
