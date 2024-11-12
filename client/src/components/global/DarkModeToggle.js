@@ -18,7 +18,7 @@ const DarkModeToggle = () => {
   return (
     <button 
       onClick={toggleDarkMode} 
-      className="p-2 ml-4 flex items-center  bg-gray-200 dark:bg-gray-600 rounded"
+      className="p-2 ml-4 flex hover:bg-gray-300 hover:dark:bg-gray-700 items-center  bg-gray-200 dark:bg-gray-600 rounded"
     >
       {isDarkMode ? (
         <MdLightMode className="text-2xl" />
