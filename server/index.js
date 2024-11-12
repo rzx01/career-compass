@@ -33,7 +33,7 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/results',resultRoutes);
 app.use('/api/career_map', careerMapRoutes);
 
-// Error handling middleware
+// Error handling middleware 
 app.use(errorHandler);
 
 app.listen(PORT, () => {

@@ -185,8 +185,10 @@ export const displayResults = async (req, res, next) => {
         const user = await User.findById(req.user.userId);
         
         const result = await Result.findOne({ user_id: user.email, type: option });
+        if (!result) {
+          return res.status(404).json({ message: "No results found for the specified option" });
+      }
         const recommendedCareers = result.career_names; 
-
         const jobDataResults = [];
         for (const career of recommendedCareers) {
             const lowercaseCareer = career.toLowerCase();
@@ -207,7 +209,6 @@ export const displayResults = async (req, res, next) => {
 
                 jobDataResults.push(jobsForCareer.filter(job => job !== null));
             } else {
-                
                 jobDataResults.push([]);
             }
         }

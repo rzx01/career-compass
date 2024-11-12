@@ -70,13 +70,12 @@ const OceanTest = () => {
     });
 
     const finalScores = {
-      O: (oceanScores.O + 18) / 4.8,
+      O: (oceanScores.O + 18) / 4.8, 
       C: (oceanScores.C + 18) / 4.8,
       E: (oceanScores.E + 18) / 4.8,
       A: (oceanScores.A + 18) / 4.8,
       N: (oceanScores.N + 18) / 4.8,
     };
-
     console.log("Final selections:", selections);
     // console.log("Calculated OCEAN scores:", finalScores);
     const token = localStorage.getItem('token'); 

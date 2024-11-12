@@ -25,13 +25,17 @@ const DisplayResults = ({ option }) => {
         );
 
         if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
+          if (response.status === 404) {
+            throw new Error("No results found for this option. Please take the test.");
+          } else {
+            throw new Error("Network response was not ok " + response.statusText);
+          }
         }
 
         const data = await response.json();
         setResults(data); 
       } catch (err) {
-        setError(err);
+        setError(err.message); // Store the error message
       } finally {
         setLoading(false);
       }
@@ -45,11 +49,15 @@ const DisplayResults = ({ option }) => {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div>
+        <div>{error}</div>
+        <Link to={`/${option}`}>Take the test By Cli</Link> {/* Redirect to the test page */}
+      </div>
+    );
   }
 
-  const [recommendedCareers, jobsForCareer1, jobsForCareer2, jobsForCareer3] =
-    results;
+  const [recommendedCareers, jobsForCareer1, jobsForCareer2, jobsForCareer3] = results;
 
   const handleCareerToggle = (careerIndex) => {
     setVisibleCareer(visibleCareer === careerIndex ? null : careerIndex);
@@ -57,7 +65,7 @@ const DisplayResults = ({ option }) => {
 
   return (
     <div className="results-display w-full p-4">
-      <div className="">
+      <div>
         <ul className="flex flex-wrap justify-center gap-6 mb-6">
           {recommendedCareers.map((career, index) => (
             <button
@@ -77,9 +85,8 @@ const DisplayResults = ({ option }) => {
           <div className="career-jobs">
             {jobsForCareer1.length > 0 ? (
               jobsForCareer1.map((job, index) => (
-                <Link to={`/jobs/${job.job_id}` } className='w-full' key={index}>
+                <Link to={`/jobs/${job.job_id}`} className="w-full" key={index}>
                   <CareerCard
-                    key={index}
                     job_title={job?.role}
                     salary_range={job?.salary_range}
                     experience={job?.experience}
@@ -98,14 +105,13 @@ const DisplayResults = ({ option }) => {
           <div className="career-jobs">
             {jobsForCareer2.length > 0 ? (
               jobsForCareer2.map((job, index) => (
-                <Link to={`/jobs/${job.job_id}` } className='w-full' key={index}>
-                <CareerCard
-                  key={index}
-                  job_title={job?.role}
-                  salary_range={job?.salary_range}
-                  experience={job?.experience}
-                  work_type={job?.work_type}
-                />
+                <Link to={`/jobs/${job.job_id}`} className="w-full" key={index}>
+                  <CareerCard
+                    job_title={job?.role}
+                    salary_range={job?.salary_range}
+                    experience={job?.experience}
+                    work_type={job?.work_type}
+                  />
                 </Link>
               ))
             ) : (
@@ -119,14 +125,13 @@ const DisplayResults = ({ option }) => {
           <div className="career-jobs">
             {jobsForCareer3.length > 0 ? (
               jobsForCareer3.map((job, index) => (
-                <Link to={`/jobs/${job.job_id}` } className='w-full' key={index}>
-                <CareerCard
-                  key={index}
-                  job_title={job?.role}
-                  salary_range={job?.salary_range}
-                  experience={job?.experience}
-                  work_type={job?.work_type}
-                />
+                <Link to={`/jobs/${job.job_id}`} className="w-full" key={index}>
+                  <CareerCard
+                    job_title={job?.role}
+                    salary_range={job?.salary_range}
+                    experience={job?.experience}
+                    work_type={job?.work_type}
+                  />
                 </Link>
               ))
             ) : (
